@@ -18,7 +18,7 @@
   "scripts": {
     "build": "gatsby build --prefix-paths",
     "deploy": "gh-pages -d public",
-    "dev": "gatsby develop",
+    "dev": "export NODE_OPTIONS=--openssl-legacy-provider && gatsby develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
   }

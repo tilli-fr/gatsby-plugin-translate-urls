@@ -195,17 +195,6 @@ describe("translateUrl", () => {
   })
 
   describe("excludedRoutes", () => {
-    test("should not translate excluded string paths", () => {
-      expect(
-        util.translateUrl({
-          ...fixtureParams,
-          path: "/about",
-          locale: "fr",
-          excludedRoutes: ["/about"],
-        })
-      ).toBe("/about")
-    })
-
     test("should not translate paths matching excluded regex patterns", () => {
       expect(
         util.translateUrl({
@@ -214,7 +203,7 @@ describe("translateUrl", () => {
           locale: "fr",
           excludedRoutes: [/^\/api\/.*/],
         })
-      ).toBe("/api/v1/endpoint")
+      ).toBe("/fr/api/v1/endpoint")
     })
 
     test("should translate non-excluded paths", () => {

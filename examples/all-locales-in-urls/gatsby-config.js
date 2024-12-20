@@ -22,6 +22,7 @@ module.exports = {
           fr: require(`${__dirname}/translations/fr.json`),
         },
         prefix: "urls.",
+        excludedRoutes: ["/about"],
       },
     },
     {

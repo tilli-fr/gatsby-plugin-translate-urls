@@ -81,10 +81,11 @@ const translateUrlWithSlashValidator = ({
   excludedRoutes,
   ...rest
 }) => {
-  let url = translateUrl({...rest, excludedRoutes})
+  let url = translateUrl({...rest})
   if (
     forceTrailingSlash &&
     !trailingSlashExcludedPaths.includes(url) &&
+    !excludedRoutes.includes(url) &&
     url[url.length - 1] !== "/"
   ) {
     // Remove the hash to prevent /route/#/ or /route#/
