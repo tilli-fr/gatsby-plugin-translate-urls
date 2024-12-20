@@ -193,4 +193,39 @@ describe("translateUrl", () => {
       }
     )
   })
+
+  describe("excludedRoutes", () => {
+    test("should not translate excluded string paths", () => {
+      expect(
+        util.translateUrl({
+          ...fixtureParams,
+          path: "/about",
+          locale: "fr",
+          excludedRoutes: ["/about"],
+        })
+      ).toBe("/about")
+    })
+
+    test("should not translate paths matching excluded regex patterns", () => {
+      expect(
+        util.translateUrl({
+          ...fixtureParams,
+          path: "/api/v1/endpoint",
+          locale: "fr",
+          excludedRoutes: [/^\/api\/.*/],
+        })
+      ).toBe("/api/v1/endpoint")
+    })
+
+    test("should translate non-excluded paths", () => {
+      expect(
+        util.translateUrl({
+          ...fixtureParams,
+          path: "/about",
+          locale: "fr",
+          excludedRoutes: ["/posts", "/contact"],
+        })
+      ).toBe("/fr/a-propos")
+    })
+  })
 })

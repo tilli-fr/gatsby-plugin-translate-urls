@@ -2,9 +2,31 @@ const {getPathLocale} = require("./get-path-locale")
 const {removeLocaleFromPath} = require("./remove-locale-from-path")
 const {removeTrailingSlash} = require("./remove-trailing-slash")
 
-const translateUrl = ({path, locale, translations, prefix, defaultLocale}) => {
+const translateUrl = ({
+  path,
+  locale,
+  translations,
+  prefix,
+  defaultLocale,
+  excludedRoutes = [],
+}) => {
   if (!path) {
     return "/" + (locale || "")
+  }
+
+  // Check if the path matches any excluded routes
+  if (
+    excludedRoutes.some((route) => {
+      if (typeof route === "string") {
+        return path === route
+      }
+      if (route instanceof RegExp) {
+        return route.test(path)
+      }
+      return false
+    })
+  ) {
+    return path
   }
 
   if (
@@ -56,9 +78,10 @@ const defaultExcludedPaths = [`/404.html`]
 const translateUrlWithSlashValidator = ({
   forceTrailingSlash,
   trailingSlashExcludedPaths = defaultExcludedPaths,
+  excludedRoutes,
   ...rest
 }) => {
-  let url = translateUrl(rest)
+  let url = translateUrl({...rest, excludedRoutes})
   if (
     forceTrailingSlash &&
     !trailingSlashExcludedPaths.includes(url) &&
